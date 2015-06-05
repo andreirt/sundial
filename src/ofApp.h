@@ -9,10 +9,10 @@
 class ofApp : public ofBaseApp{
     ofVideoGrabber* grabber;
     ofFbo imageFbo, finalFbo, shadowFbo;
-    int currentPixel, previousPixel = -1, cameraPixelsLength, line, column, screenWidth, screenHeight, dayInYear;
+    int currentPixel, previousPixel, cameraPixelsLength, line, column, screenWidth, screenHeight, dayInYear;
     float scale, lastSavedImageTime = 0;
     ofColor  color;
-    int currentTime, sunrise, sunset, MILLISECONDS_PER_HOUR = 60*60*1000; //in milliseconds
+    int currentTime, sunrise, sunset; //in milliseconds
     float latitude, longitude;
 
     int cameraWidth;
@@ -43,6 +43,8 @@ class ofApp : public ofBaseApp{
     const static string NINETY_DEGREES_LABEL;
     const static string ONE_HUNDRED_EIGHTY_DEGREES_LABEL;
     const static string TWO_HUNDRED_SEVENTY_DEGREES_LABEL;
+
+    const static int MILLISECONDS_PER_HOUR;
 
 
     ofxUIDropDownList* cameraList;

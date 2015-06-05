@@ -1,7 +1,6 @@
 #include "ofApp.h"
 #include <sys/time.h>
 #include <math.h>
-#define PI 3.14159265
 
 const string ofApp::CAMERA_WIDTH_LABEL = "Largura da câmera";
 const string ofApp::CAMERA_HEIGHT_LABEL = "Altura da câmera";
@@ -17,6 +16,8 @@ const string ofApp::ZERO_DEGREES_LABEL = "0 graus";
 const string ofApp::NINETY_DEGREES_LABEL = "90 graus";
 const string ofApp::ONE_HUNDRED_EIGHTY_DEGREES_LABEL = "180 graus";
 const string ofApp::TWO_HUNDRED_SEVENTY_DEGREES_LABEL = "270 graus";
+
+const int ofApp::MILLISECONDS_PER_HOUR = 60*60*1000;
 
 
 
@@ -237,6 +238,7 @@ void ofApp::reset() {
 
     this->latitude = this->latitudeTextInput->getIntValue();
     this->longitude = this->longitudeTextInput->getIntValue();
+
 }
 
 
@@ -285,11 +287,11 @@ void ofApp::update(){
 
     struct timeval inicio;
     gettimeofday(&inicio, NULL);
-    this->currentTime = ((ofGetHours()-4)*3600 + ofGetMinutes()*60 + ofGetSeconds()) * 1000 + (int) inicio.tv_usec/1000;
+    this->currentTime = ((ofGetHours())*3600 + ofGetMinutes()*60 + ofGetSeconds()) * 1000 + (int) inicio.tv_usec/1000;
 
     this->currentPixel = ofMap(currentTime, 0, (24*MILLISECONDS_PER_HOUR)-1, 0, (cameraPixelsLength-1));
 
-    if (this->previousPixel == -1)
+    if (this->previousPixel == NULL)
         this->previousPixel = this->currentPixel;
 
     if (this->currentPixel >= this->cameraPixelsLength)

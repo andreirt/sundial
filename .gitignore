@@ -40,6 +40,9 @@ apps/*
 *.cpp.elf
 *.cpp.hex
 
+
+[Bb]in/data/*relogiodesol*.png
+
 #########################
 # IDE
 #########################
