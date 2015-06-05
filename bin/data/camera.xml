@@ -1,0 +1,45 @@
+<Widget>
+    <Kind>22</Kind>
+    <Name>Escolha a câmera</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>WebCam SCB-1100N</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>LGPLite Stream Engine</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>12</Kind>
+    <Name>CameraWidth</Name>
+    <Value>1280</Value>
+</Widget>
+<Widget>
+    <Kind>12</Kind>
+    <Name>CameraHeight</Name>
+    <Value>720</Value>
+</Widget>
+<Widget>
+    <Kind>2</Kind>
+    <Name>0 graus</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>2</Kind>
+    <Name>90 graus</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>2</Kind>
+    <Name>180 graus</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>2</Kind>
+    <Name>270 graus</Name>
+    <Value>0</Value>
+</Widget>
