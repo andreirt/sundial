@@ -23,6 +23,9 @@ const int ofApp::MILLISECONDS_PER_HOUR = 60*60*1000;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    this->lastSavedImageTime = 0;
+    this->selectedCameraIndex = 0;
+    this->hideButtonReleased = false;
 
     this->grabber = new ofVideoGrabber();
 
@@ -189,6 +192,7 @@ void ofApp::setup(){
         this->hideConfigurationPanel();
     }
 
+    this->getSunTime();
     this->reset();
 
     char backgroundImageName[27];
@@ -234,8 +238,6 @@ void ofApp::reset() {
     float scaleH = (float) ofGetWidth() / (float) this->cameraWidth;
     this->scale = min(scaleV, scaleH);
 
-    this->getCurrentDay();
-
     this->latitude = this->latitudeTextInput->getIntValue();
     this->longitude = this->longitudeTextInput->getIntValue();
 
@@ -244,9 +246,9 @@ void ofApp::reset() {
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    ofSetColor( 255, 255, 255, 255 );
-    ofSetColor( 255, 255, 255, 255 );
-    this->getSunTime();
+    this->grabber->update();
+    if (!grabber->isFrameNew())
+        return;
 
     ofPixels shadowPixels;
     ofPixels cameraPixels;
@@ -254,28 +256,26 @@ void ofApp::update(){
     ofxCvGrayscaleImage grayShadow;
     ofTexture grayShadowTexture;
 
-    this->grabber->update();
     ofTexture videoTexture = this->grabber->getTextureReference();
     videoTexture.readToPixels(cameraPixels);
 
+    float shadowWidth = getShadowWidth();
+    float positionAndOffset = getShadowPositionAndOffset();
+
+    cameraPixels.rotate90( this->rotations );
+
+    colorShadow.setFromPixels(cameraPixels);
+
+    grayShadow = colorShadow;
+    shadowPixels = grayShadow.getPixelsRef();
+
+    grayShadowTexture.allocate( colorShadow.getPixelsRef() );
+    grayShadowTexture.setRGToRGBASwizzles(true);
+    grayShadowTexture.loadData( shadowPixels );
+
     this->shadowFbo.begin();
+        ofSetColor( 255, 255, 255, 255 );
         ofClear( 255, 255, 255 );
-
-        float shadowWidth = getShadowWidth();
-        float positionAndOffset = getShadowPositionAndOffset();
-
-
-        cameraPixels.rotate90( this->rotations );
-
-        colorShadow.setFromPixels(cameraPixels);
-
-        grayShadow = colorShadow;
-        shadowPixels = grayShadow.getPixelsRef();
-
-        grayShadowTexture.allocate( colorShadow.getPixelsRef() );
-        grayShadowTexture.setRGToRGBASwizzles(true);
-        grayShadowTexture.loadData( shadowPixels );
-
         for (int i=0; i<shadowWidth; i++) {
             ofSetColor( 255, 255, 255, getShadowAlpha(i, shadowWidth) );
             grayShadowTexture.drawSubsection( (positionAndOffset+i), 0, 1, this->cameraHeight, (positionAndOffset+i), 0 );
@@ -283,31 +283,29 @@ void ofApp::update(){
 
     this->shadowFbo.end();
 
-
-
     struct timeval inicio;
     gettimeofday(&inicio, NULL);
     this->currentTime = ((ofGetHours())*3600 + ofGetMinutes()*60 + ofGetSeconds()) * 1000 + (int) inicio.tv_usec/1000;
 
-    this->currentPixel = ofMap(currentTime, 0, (24*MILLISECONDS_PER_HOUR)-1, 0, (cameraPixelsLength-1));
+    int currentPixel = ofMap(currentTime, 0, (24*MILLISECONDS_PER_HOUR)-1, 0, (cameraPixelsLength-1));
 
-    if (this->previousPixel == NULL)
-        this->previousPixel = this->currentPixel;
+    if (this->lastDrawnPixel == NULL)
+        this->lastDrawnPixel = currentPixel;
 
-    if (this->currentPixel >= this->cameraPixelsLength)
-			this->currentPixel = this->cameraPixelsLength-1;
+    if (currentPixel >= this->cameraPixelsLength)
+			currentPixel = this->cameraPixelsLength-1;
 
-    if (this->currentPixel != this->previousPixel) {
+    if (currentPixel != this->lastDrawnPixel) {
 
-        int cont = this->previousPixel;
+        int cont = this->lastDrawnPixel;
 
-        while (cont != this->currentPixel) {
+        while (cont != currentPixel) {
 
-            column = cont / this->cameraHeight;
-            line = cont % this->cameraHeight;
+            int column = cont / this->cameraHeight;
+            int line = cont % this->cameraHeight;
 
+            color = cameraPixels.getColor( column, line );
             this->imageFbo.begin();
-                color = cameraPixels.getColor( column, line );
                 ofSetColor( color );
                 ofRect( column, line, 1, 1);
             this->imageFbo.end();
@@ -317,32 +315,32 @@ void ofApp::update(){
             if (cont >= this->cameraPixelsLength) {
                 cont=0;
                 this->clearImage();
+                this->getSunTime();
             }
         }
 
-        if (this->currentPixel < this->previousPixel) {
-            this->getCurrentDay();
-        }
-
-        this->previousPixel = this->currentPixel;
-
-         this->finalFbo.begin();
-            ofClear( this->getBackgroundColor() );
-            ofSetColor( 255, 255, 255 );
-            this->imageFbo.draw( 0, 0 );
-            ofSetColor( 255, 255, 255);
-            this->shadowFbo.draw( 0, 0 );
-         this->finalFbo.end();
+        this->lastDrawnPixel = currentPixel;
     }
+
+    this->finalFbo.begin();
+        ofClear( this->getBackgroundColor() );
+        ofSetColor( 255, 255, 255 );
+        this->imageFbo.draw( 0, 0 );
+        ofSetColor( 255, 255, 255);
+        this->shadowFbo.draw( 0, 0 );
+    this->finalFbo.end();
 
     if (ofGetElapsedTimef() >= this->lastSavedImageTime+(this->intervalToSaveImage*60)) {
         this->saveCurrentImage();
     }
-
 }
 
 //--------------------------------------------------------------
 void ofApp::getSunTime() {
+
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+    int dayInYear = (ltm->tm_yday) + 1;
 
     float earthInclination = 23.45 * sin( ((360.0/365.0) * (float) (284 + dayInYear)) * PI/180 );
     float Td = (2.0/15.0) * (acos( -tan(this->latitude * PI/180) * tan( earthInclination * PI/180 ) ) / (PI/180));
@@ -351,17 +349,6 @@ void ofApp::getSunTime() {
 
     sunrise = (12 - (Td/2.0)) * MILLISECONDS_PER_HOUR;
     sunset = (12 + (Td/2.0)) * MILLISECONDS_PER_HOUR;
-
-}
-
-//--------------------------------------------------------------
-void ofApp::getCurrentDay() {
-
-    time_t now = time(0);
-    tm *ltm = localtime(&now);
-    dayInYear = (ltm->tm_yday) + 1;
-
-    printf("Novo dia %d\n", dayInYear);
 
 }
 

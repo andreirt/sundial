@@ -8,9 +8,13 @@
 
 class ofApp : public ofBaseApp{
     ofVideoGrabber* grabber;
-    ofFbo imageFbo, finalFbo, shadowFbo;
-    int currentPixel, previousPixel, cameraPixelsLength, line, column, screenWidth, screenHeight, dayInYear;
-    float scale, lastSavedImageTime = 0;
+    ofFbo imageFbo;
+    ofFbo finalFbo;
+    ofFbo shadowFbo;
+    int lastDrawnPixel;
+    int cameraPixelsLength;
+    float scale;
+    float lastSavedImageTime;
     ofColor  color;
     int currentTime, sunrise, sunset; //in milliseconds
     float latitude, longitude;
@@ -26,8 +30,8 @@ class ofApp : public ofBaseApp{
     ofxUICanvas *cameraPanel;
     ofxUICanvas *imagePanel;
 
-    int selectedCameraIndex = 0;
-    bool hideButtonReleased = false;
+    int selectedCameraIndex;
+    bool hideButtonReleased;
 
     const static string CAMERA_WIDTH_LABEL;
     const static string CAMERA_HEIGHT_LABEL;
@@ -95,7 +99,6 @@ class ofApp : public ofBaseApp{
         float getShadowAlpha(int i, float shadowWidth);
         ofColor getBackgroundColor();
         void getSunTime();
-        void getCurrentDay();
         void clearImage();
 		void keyPressed(int key);
 		void keyReleased(int key);
