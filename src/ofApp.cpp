@@ -233,6 +233,7 @@ void ofApp::reset() {
     this->imageFbo.allocate( this->cameraWidth, this->cameraHeight );
     this->shadowFbo.allocate( this->cameraWidth, this->cameraHeight );
     this->finalFbo.allocate( this->cameraWidth, this->cameraHeight );
+    this->screenImage.allocate( this->cameraWidth, this->cameraHeight, OF_IMAGE_COLOR_ALPHA );
 
     float scaleV = (float) ofGetHeight() / (float) this->cameraHeight;
     float scaleH = (float) ofGetWidth() / (float) this->cameraWidth;
@@ -424,7 +425,9 @@ void ofApp::saveCurrentImage() {
     char name[31];
     sprintf( name, "relogiodesol_%d_%d_%d_%d_%d.png", ofGetYear(), ofGetMonth(), ofGetDay(), ofGetHours(), ofGetMinutes() );
 
-    ofPixels screenPixels;
+    this->screenImage.grabScreen( 0, 0, ofGetWidth(), ofGetHeight() );
+    this->screenImage.saveImage(name);
+    /*ofPixels screenPixels;
     this->finalFbo.readToPixels(screenPixels);
     ofSaveImage(screenPixels, name, OF_IMAGE_QUALITY_BEST);
 
@@ -433,7 +436,7 @@ void ofApp::saveCurrentImage() {
 
     ofPixels backgroundPixels;
     this->imageFbo.readToPixels(backgroundPixels);
-    ofSaveImage(backgroundPixels, backgroundImageName, OF_IMAGE_QUALITY_BEST);
+    ofSaveImage(backgroundPixels, backgroundImageName, OF_IMAGE_QUALITY_BEST);*/
 
     lastSavedImageTime = ofGetElapsedTimef();
 }

@@ -11,6 +11,7 @@ class ofApp : public ofBaseApp{
     ofFbo imageFbo;
     ofFbo finalFbo;
     ofFbo shadowFbo;
+    ofImage screenImage;
     int lastDrawnPixel;
     int cameraPixelsLength;
     float scale;
