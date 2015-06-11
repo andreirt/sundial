@@ -12,12 +12,12 @@ class ofApp : public ofBaseApp{
     ofFbo finalFbo;
     ofFbo shadowFbo;
     ofImage screenImage;
-    int lastDrawnPixel;
-    int cameraPixelsLength;
+    long lastDrawnPixel;
+    long cameraPixelsLength;
     float scale;
     float lastSavedImageTime;
     ofColor  color;
-    int currentTime, sunrise, sunset; //in milliseconds
+    long currentTime, sunrise, sunset; //in milliseconds
     float latitude, longitude;
 
     int cameraWidth;

@@ -24,6 +24,7 @@ const int ofApp::MILLISECONDS_PER_HOUR = 60*60*1000;
 //--------------------------------------------------------------
 void ofApp::setup(){
     this->lastSavedImageTime = 0;
+    this->lastDrawnPixel = -1;
     this->selectedCameraIndex = 0;
     this->hideButtonReleased = false;
 
@@ -290,7 +291,7 @@ void ofApp::update(){
 
     int currentPixel = ofMap(currentTime, 0, (24*MILLISECONDS_PER_HOUR)-1, 0, (cameraPixelsLength-1));
 
-    if (this->lastDrawnPixel == NULL)
+    if (this->lastDrawnPixel == -1)
         this->lastDrawnPixel = currentPixel;
 
     if (currentPixel >= this->cameraPixelsLength)
@@ -423,20 +424,18 @@ ofColor ofApp::getBackgroundColor() {
 void ofApp::saveCurrentImage() {
 
     char name[31];
-    sprintf( name, "relogiodesol_%d_%d_%d_%d_%d.png", ofGetYear(), ofGetMonth(), ofGetDay(), ofGetHours(), ofGetMinutes() );
+    sprintf( name, "relogiodesol_%04d_%02d_%02d_%02d_%02d_%02d.png", ofGetYear(), ofGetMonth(), ofGetDay(), ofGetHours(), ofGetMinutes(), ofGetSeconds() );
 
-    this->screenImage.grabScreen( 0, 0, ofGetWidth(), ofGetHeight() );
-    this->screenImage.saveImage(name);
-    /*ofPixels screenPixels;
+    ofPixels screenPixels;
     this->finalFbo.readToPixels(screenPixels);
     ofSaveImage(screenPixels, name, OF_IMAGE_QUALITY_BEST);
 
-    char backgroundImageName[27];
-    sprintf( backgroundImageName, "relogiodesol_%d_%d_%d.png", ofGetYear(), ofGetMonth(), ofGetDay() );
+    //char backgroundImageName[27];
+    //sprintf( backgroundImageName, "relogiodesol_%d_%d_%d.png", ofGetYear(), ofGetMonth(), ofGetDay() );
 
-    ofPixels backgroundPixels;
-    this->imageFbo.readToPixels(backgroundPixels);
-    ofSaveImage(backgroundPixels, backgroundImageName, OF_IMAGE_QUALITY_BEST);*/
+    //ofPixels backgroundPixels;
+    //this->imageFbo.readToPixels(backgroundPixels);
+    //ofSaveImage(backgroundPixels, backgroundImageName, OF_IMAGE_QUALITY_BEST);*/
 
     lastSavedImageTime = ofGetElapsedTimef();
 }
