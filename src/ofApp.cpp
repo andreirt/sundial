@@ -230,6 +230,7 @@ void ofApp::reset() {
     this->grabber->initGrabber(this->cameraWidthTextInput->getIntValue(), this->cameraHeightTextInput->getIntValue());
 
     this->cameraPixelsLength = this->cameraWidthTextInput->getIntValue() * this->cameraHeightTextInput->getIntValue();
+    ofLog() << "this->cameraPixelsLength: " << this->cameraPixelsLength;
 
     this->imageFbo.allocate( this->cameraWidth, this->cameraHeight );
     this->shadowFbo.allocate( this->cameraWidth, this->cameraHeight );
@@ -242,6 +243,8 @@ void ofApp::reset() {
 
     this->latitude = this->latitudeTextInput->getIntValue();
     this->longitude = this->longitudeTextInput->getIntValue();
+
+    this->lastDrawnPixel = 0;
 
 }
 
@@ -289,40 +292,30 @@ void ofApp::update(){
     gettimeofday(&inicio, NULL);
     this->currentTime = ((ofGetHours())*3600 + ofGetMinutes()*60 + ofGetSeconds()) * 1000 + (int) inicio.tv_usec/1000;
 
-    int currentPixel = ofMap(currentTime, 0, (24*MILLISECONDS_PER_HOUR)-1, 0, (cameraPixelsLength-1));
+    int currentPixel = ofMap(currentTime, 0, (24*MILLISECONDS_PER_HOUR)-1, 0, (cameraPixelsLength-1), true);
+    if (currentPixel < this->lastDrawnPixel) {
+        assert(ofGetHours() == 0);
+    }
 
-    if (this->lastDrawnPixel == -1)
-        this->lastDrawnPixel = currentPixel;
+    if (this->lastDrawnPixel == -1 || currentPixel < this->lastDrawnPixel) {
+        this->clearImage();
+        this->getSunTime();
+        this->lastDrawnPixel = -1;
+    }
 
-    if (currentPixel >= this->cameraPixelsLength)
-			currentPixel = this->cameraPixelsLength-1;
+    this->imageFbo.begin();
+        while (this->lastDrawnPixel < currentPixel) {
 
-    if (currentPixel != this->lastDrawnPixel) {
-
-        int cont = this->lastDrawnPixel;
-
-        while (cont != currentPixel) {
-
-            int column = cont / this->cameraHeight;
-            int line = cont % this->cameraHeight;
+            int column = this->lastDrawnPixel / this->cameraHeight;
+            int line = this->lastDrawnPixel % this->cameraHeight;
 
             color = cameraPixels.getColor( column, line );
-            this->imageFbo.begin();
-                ofSetColor( color );
-                ofRect( column, line, 1, 1);
-            this->imageFbo.end();
+            ofSetColor( color );
+            ofRect( column, line, 1, 1);
 
-            cont++;
-
-            if (cont >= this->cameraPixelsLength) {
-                cont=0;
-                this->clearImage();
-                this->getSunTime();
-            }
+            ++this->lastDrawnPixel;
         }
-
-        this->lastDrawnPixel = currentPixel;
-    }
+    this->imageFbo.end();
 
     this->finalFbo.begin();
         ofClear( this->getBackgroundColor() );
