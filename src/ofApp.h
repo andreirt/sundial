@@ -49,7 +49,7 @@ class ofApp : public ofBaseApp{
     const static string ONE_HUNDRED_EIGHTY_DEGREES_LABEL;
     const static string TWO_HUNDRED_SEVENTY_DEGREES_LABEL;
 
-    const static int MILLISECONDS_PER_HOUR;
+    const static long MILLISECONDS_PER_HOUR;
 
 
     ofxUIDropDownList* cameraList;

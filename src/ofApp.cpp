@@ -17,7 +17,7 @@ const string ofApp::NINETY_DEGREES_LABEL = "90 graus";
 const string ofApp::ONE_HUNDRED_EIGHTY_DEGREES_LABEL = "180 graus";
 const string ofApp::TWO_HUNDRED_SEVENTY_DEGREES_LABEL = "270 graus";
 
-const int ofApp::MILLISECONDS_PER_HOUR = 60*60*1000;
+const long ofApp::MILLISECONDS_PER_HOUR = 60*60*1000;
 
 
 
@@ -290,11 +290,13 @@ void ofApp::update(){
 
     struct timeval inicio;
     gettimeofday(&inicio, NULL);
-    this->currentTime = ((ofGetHours())*3600 + ofGetMinutes()*60 + ofGetSeconds()) * 1000 + (int) inicio.tv_usec/1000;
+    this->currentTime = ((ofGetHours())*3600 + ofGetMinutes()*60 + ofGetSeconds()) * 1000 + (long) inicio.tv_usec/1000;
 
     int currentPixel = ofMap(currentTime, 0, (24*MILLISECONDS_PER_HOUR)-1, 0, (cameraPixelsLength-1), true);
     if (currentPixel < this->lastDrawnPixel) {
-        assert(ofGetHours() == 0);
+        if (ofGetHours() > 0) {
+            return;
+        }
     }
 
     if (this->lastDrawnPixel == -1 || currentPixel < this->lastDrawnPixel) {
