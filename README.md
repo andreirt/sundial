@@ -14,6 +14,12 @@ Developed in C++ / OpenFrameworks by Vitor Andrioli and by Andrei Thomaz.
 2. Clone ofxUI repository under addons/ folder
 3. Open Sundial.xcodeproj in Xcode and build the project
 
+### Building with Code::Blocks (Linux)
+
+1. Clone this repository under apps/myApps/ folder
+2. Clone ofxUI repository under addons/ folder
+3. Open Sundial_Linux.workspace in Code::Blocks and build the project
+
 ## License
 
 Copyright (c) 2015 Andrei Rubina Thomaz. Licensed under the [MIT license](bin/license.txt).
