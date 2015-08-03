@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<cameraWidth>
+		<en>Camera width</en>
+		<pt>Largura da câmera</pt>
+	</cameraWidth>
+	<cameraHeight>
+		<en>Camera height</en>
+		<pt>Altura da câmera</pt>
+	</cameraHeight>
+    <latitude>
+        <en>Latitude</en>
+        <pt>Latitude</pt>
+    </latitude>
+    <longitude>
+        <en>Longitude</en>
+        <pt>Longitude</pt>
+    </longitude>
+	<saveImage>
+		<en>Save image each</en>
+		<pt>Salvar imagem a cada</pt>
+	</saveImage>
+	<resetImage>
+		<en>Clear image</en>
+		<pt>Limpar imagem</pt>
+	</resetImage>
+	<save>
+		<en>Save</en>
+		<pt>Salvar</pt>
+	</save>
+	<cancel>
+		<en>Cancel</en>
+		<pt>Cancelar</pt>
+	</cancel>
+	<zeroDegress>
+		<en>0 degrees</en>
+		<pt>0 graus</pt>
+	</zeroDegress>
+	<ninetyDegress>
+		<en>90 degrees</en>
+		<pt>90 graus</pt>
+	</ninetyDegress>
+	<oneHundredEightyDegress>
+		<en>180 degrees</en>
+		<pt>180 graus</pt>
+	</oneHundredEightyDegress>
+	<twoHundredSeventyDegress>
+		<en>270 degrees</en>
+		<pt>270 graus</pt>
+	</twoHundredSeventyDegress>
+	<sundial>
+		<en>Sundial</en>
+		<pt>Relógio de sol</pt>
+	</sundial>
+	<imageRotation>
+		<en>Image rotation</en>
+		<pt>Rotação da imagem</pt>
+	</imageRotation>
+	<pickCamera>
+		<en>Pick a camera</en>
+		<pt>Escolha a câmera</pt>
+	</pickCamera>
+	<showAtStartup>
+		<en>Show control panel at startup</en>
+		<pt>Exibir esta tela ao iniciar</pt>
+	</showAtStartup>
+	<fullScreen>
+		<en>Fullscreen</en>
+		<pt>Tela cheia</pt>
+	</fullScreen>
+	<support>
+		<en>Support</en>
+		<pt>Realização</pt>
+	</support>
+	<minutes>
+		<en>minutes</en>
+		<pt>minutos</pt>
+	</minutes>
+	<each>
+		<en>Each</en>
+		<pt>A cada</pt>
+	</each>
+	<credits1>
+		<en>Sundial - Andrei Thomaz, 2015</en>
+		<pt>Relógio de sol - Andrei Thomaz, 2015</pt>
+	</credits1>
+	<credits2>
+		<en>Part of Time Machines project, supported by</en>
+		<pt>Integrante do projeto Máquinas do Tempo, desenvolvido com apoio da</pt>
+	</credits2>
+	<credits3>
+		<en>Funarte Visual Arts Production Incentive Grant 2014</en>
+		<pt>Bolsa Funarte de Estímulo à Produção em Artes Visuais 2014</pt>
+	</credits3>
+	<credits4>
+		<en>Developed in C++ / OpenFrameworks and distributed under MPL license</en>
+		<pt>Desenvolvido em C++ / OpenFrameworks e distribuído sob a licença MPL</pt>
+	</credits4>
+	<credits5>
+		<en>Programming by Andrei Thomaz and Vitor Andrioli</en>
+		<pt>Programação por Andrei Thomaz e Vitor Andrioli</pt>
+	</credits5>
+</data>
