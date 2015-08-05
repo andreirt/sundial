@@ -19,6 +19,10 @@ class ofApp : public ofBaseApp{
     ofColor  color;
     long currentTime, sunrise, sunset; //in milliseconds
     float latitude, longitude;
+    
+    std::map<string, string> ptStrings;
+    std::map<string, string> enStrings;
+    std::map<string, string> currentStrings;
 
     int cameraWidth;
     int cameraHeight;
@@ -33,21 +37,20 @@ class ofApp : public ofBaseApp{
 
     int selectedCameraIndex;
     bool hideButtonReleased;
-
-    const static string CAMERA_WIDTH_LABEL;
-    const static string CAMERA_HEIGHT_LABEL;
-    const static string LATITUDE_LABEL;
-    const static string LONGITUDE_LABEL;
-    const static string SAVE_IMAGE_LABEL;
-    const static string SAVE_LABEL;
-    const static string CANCEL_LABEL;
-    const static string RESET_IMAGE_LABEL;
+    
+    const static float MAX_STRENGTH_AROUND_PIXEL;
     const static string SUPPORT_BUTTON_NAME;
-
-    const static string ZERO_DEGREES_LABEL;
-    const static string NINETY_DEGREES_LABEL;
-    const static string ONE_HUNDRED_EIGHTY_DEGREES_LABEL;
-    const static string TWO_HUNDRED_SEVENTY_DEGREES_LABEL;
+    const static string CHANGE_LOCALE_BUTTON_NAME;
+    
+    const static string ENGLISH_LABEL;
+    const static string PORTUGUESE_LABEL;
+    
+    int currentLocale;
+    const static int LOCALE_ENGLISH = 0;
+    const static int LOCALE_PORTUGUESE = 1;
+    
+    ofxUILabel* titleLabel;
+    ofxUILabelButton* changeLocaleButton;
 
     const static long MILLISECONDS_PER_HOUR;
 
@@ -56,6 +59,18 @@ class ofApp : public ofBaseApp{
     ofxUITextInput* cameraWidthTextInput;
     ofxUITextInput* cameraHeightTextInput;
     ofxUITextInput* intervalToSaveTextInput;
+    
+    ofxUILabel* latitudeLabel;
+    ofxUILabel* longitudeLabel;
+    
+    ofxUILabel* minutesLabel;
+    
+    ofxUILabel* cameraWidthLabel;
+    ofxUILabel* cameraHeightLabel;
+    
+    ofxUILabel* imageRotationLabel;
+    
+    ofxUIDropDownList* pickCameraLabel;
 
     std::vector<ofxUITextInput*> textInputs;
 
@@ -64,6 +79,18 @@ class ofApp : public ofBaseApp{
     ofxUIToggle* oneHundredEightyRotationToggle;
     ofxUIToggle* twoHundredSeventyRotationToggle;
     int rotations;
+    
+    ofxUILabel* credits1Label;
+    ofxUILabel* credits2Label;
+    ofxUILabel* credits3Label;
+    ofxUILabel* credits4Label;
+    ofxUILabel* credits5Label;
+    
+    ofxUILabelButton* clearButton;
+    
+    ofxUILabelButton* saveButton;
+    ofxUILabelButton* cancelButton;
+    ofxUILabel* supportLabel;
 
     ofxUIToggle* showAtStartupToggle;
     bool showAtStartup;
@@ -90,6 +117,7 @@ class ofApp : public ofBaseApp{
         void hideConfigurationPanel();
         void showConfigurationPanel();
         void unfocusAllTextInputs(ofxUITextInput* except);
+        void checkTextInputFocus(ofxUIEventArgs &e);
 
 		void setup();
 		void update();
