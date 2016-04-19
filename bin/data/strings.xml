@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
-	<cameraWidth>
-		<en>Camera width</en>
-		<pt>Largura da câmera</pt>
-	</cameraWidth>
-	<cameraHeight>
-		<en>Camera height</en>
-		<pt>Altura da câmera</pt>
-	</cameraHeight>
+    <deviceResolution>
+        <en>Device resolution</en>
+        <pt>Resolução da câmera</pt>
+    </deviceResolution>
     <latitude>
         <en>Latitude</en>
         <pt>Latitude</pt>
