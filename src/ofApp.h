@@ -2,12 +2,29 @@
 
 #include "ofMain.h"
 #include "ofxOpenCv.h"
-#include "ofxUI.h"
-
-
+#include "ofxImGui.h"
+#include <map>
 
 class ofApp : public ofBaseApp{
+private:
+    ofXml settings;
+    ofxImGui*gui;
+    GLuint imageButtonID;
+    static float latitude;
+    static float longitude;
+    static int intervalToSaveImage;
+    static int degreesButtonValue;
+    static bool saveImageToggle;
+    static bool showAtStartup;
+    static bool fullscreen;
+    static bool configurationPanelShow;
+    static int currentResolution;
+    const char* deviceResolution[5];
+    const static long MILLISECONDS_PER_HOUR;
+    const static float MAX_STRENGTH_AROUND_PIXEL;
+    
     ofVideoGrabber* grabber;
+    int selectedCameraIndex;
     ofFbo imageFbo;
     ofFbo finalFbo;
     ofFbo shadowFbo;
@@ -18,96 +35,48 @@ class ofApp : public ofBaseApp{
     float lastSavedImageTime;
     ofColor  color;
     long currentTime, sunrise, sunset; //in milliseconds
-    float latitude, longitude;
-
+    
     int cameraWidth;
     int cameraHeight;
-
-    int intervalToSaveImage;
-
-    //----------------------- Interface
-
-    ofxUICanvas *gui;
-    ofxUICanvas *cameraPanel;
-    ofxUICanvas *imagePanel;
-
-    int selectedCameraIndex;
-    bool hideButtonReleased;
-
-    const static string CAMERA_WIDTH_LABEL;
-    const static string CAMERA_HEIGHT_LABEL;
-    const static string LATITUDE_LABEL;
-    const static string LONGITUDE_LABEL;
-    const static string SAVE_IMAGE_LABEL;
-    const static string SAVE_LABEL;
-    const static string CANCEL_LABEL;
-    const static string RESET_IMAGE_LABEL;
-    const static string SUPPORT_BUTTON_NAME;
-
-    const static string ZERO_DEGREES_LABEL;
-    const static string NINETY_DEGREES_LABEL;
-    const static string ONE_HUNDRED_EIGHTY_DEGREES_LABEL;
-    const static string TWO_HUNDRED_SEVENTY_DEGREES_LABEL;
-
-    const static long MILLISECONDS_PER_HOUR;
-
-
-    ofxUIDropDownList* cameraList;
-    ofxUITextInput* cameraWidthTextInput;
-    ofxUITextInput* cameraHeightTextInput;
-    ofxUITextInput* intervalToSaveTextInput;
-
-    std::vector<ofxUITextInput*> textInputs;
-
-    ofxUIToggle* zeroRotationToggle;
-    ofxUIToggle* ninetyRotationToggle;
-    ofxUIToggle* oneHundredEightyRotationToggle;
-    ofxUIToggle* twoHundredSeventyRotationToggle;
     int rotations;
-
-    ofxUIToggle* showAtStartupToggle;
-    bool showAtStartup;
-
-    ofxUIToggle* fullScreenToggle;
-    bool fullScreen;
-
-    ofxUIToggle* saveImageToggle;
-    bool saveImage;
-
-    ofxUITextInput* latitudeTextInput;
-    ofxUITextInput* longitudeTextInput;
-
-    //----------------------- Interface
-
-    public:
-        void exit();
-        void guiEvent(ofxUIEventArgs &e);
-        void cameraPanelEvent(ofxUIEventArgs &e);
-        void imagePanelEvent(ofxUIEventArgs &e);
-        void reset();
-        void cancelConfigurationChanges();
-        void applyConfigurationChanges();
-        void hideConfigurationPanel();
-        void showConfigurationPanel();
-        void unfocusAllTextInputs(ofxUITextInput* except);
-
-		void setup();
-		void update();
-		void draw();
-        void saveCurrentImage();
-        float getShadowWidth();
-        float getShadowPositionAndOffset();
-        float getShadowAlpha(int i, float shadowWidth);
-        ofColor getBackgroundColor();
-        void getSunTime();
-        void clearImage();
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y);
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
+    float lastTimeImageWasSaved;
+    
+    std::map<string, string> ptStrings;
+    std::map<string, string> enStrings;
+    std::map<string, string> currentStrings;
+    const static string CHANGE_LOCALE_BUTTON_NAME;
+    const static string ENGLISH_LABEL;
+    const static string PORTUGUESE_LABEL;
+    const static int LOCALE_ENGLISH = 0;
+    const static int LOCALE_PORTUGUESE = 1;
+    int currentLocale;
+    string changeLocaleLabel;
+    
+public:
+    void setup();
+    void reset();
+    void update();
+    void draw();
+    void keyPressed(int key);
+    void windowResized(int w, int h);
+    
+    void saveCurrentImage();
+    float getShadowWidth();
+    float getShadowPositionAndOffset();
+    float getShadowAlpha(int i, float shadowWidth);
+    ofColor getBackgroundColor();
+    void getSunTime();
+    void clearImage();
+ 
+    void cancelConfigurationChanges();
+    void applyConfigurationChanges();
+    void hideConfigurationPanel();
+    void showConfigurationPanel();
+    void changeLocale();
+    void saveXmlSettings();
+    void loadXmlSettings();
+    void setFullscreen();
+    void selectResolution();
+    
+    void mouseReleased(ofMouseEventArgs&);
 };
