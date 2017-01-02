@@ -4,7 +4,7 @@ Developed in C++ / OpenFrameworks by Vitor Andrioli, Victor Fornaciari and Andre
 
 http://maquinasdotempo.art.br
 
-https://github.com/andreirt/candle-clock
+https://github.com/andreirt/sundial
 
 ### Building with Code::Blocks (Windows)
 
