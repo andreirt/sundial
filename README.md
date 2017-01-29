@@ -1,23 +1,27 @@
 # Sundial
 
-Developed in C++ / OpenFrameworks by Vitor Andrioli and by Andrei Thomaz.
+Developed in C++ / OpenFrameworks by Vitor Andrioli, Victor Fornaciari and Andrei Thomaz.
+
+http://maquinasdotempo.art.br
+
+https://github.com/andreirt/sundial
 
 ### Building with Code::Blocks (Windows)
 
 1. Clone this repository under apps/myApps/ folder
-2. Clone ofxUI repository under addons/ folder
+2. Clone ofxImGui repository under addons/ folder
 3. Open Sundial.workspace in Code::Blocks and build the project
 
 ### Building with Xcode (Mac)
 
 1. Clone this repository under apps/myApps/ folder
-2. Clone ofxUI repository under addons/ folder
+2. Clone ofxImGui repository under addons/ folder
 3. Open Sundial.xcodeproj in Xcode and build the project
 
 ### Building with Code::Blocks (Linux)
 
 1. Clone this repository under apps/myApps/ folder
-2. Clone ofxUI repository under addons/ folder
+2. Clone ofxImGui repository under addons/ folder
 3. Open Sundial_Linux.workspace in Code::Blocks and build the project
 
 ## License

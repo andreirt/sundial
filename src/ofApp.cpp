@@ -30,7 +30,7 @@ void ofApp::setup(){
     this->lastDrawnPixel = -1;
     this->grabber = new ofVideoGrabber();
 
-    this->currentLocale = LOCALE_PORTUGUESE;
+    this->currentLocale = LOCALE_ENGLISH;
     this->changeLocaleLabel = PORTUGUESE_LABEL;
     
     ofFile stringsFile;
@@ -54,7 +54,7 @@ void ofApp::setup(){
         
         strings.setToParent();
     }
-    this->currentStrings = this->ptStrings;
+    this->currentStrings = this->enStrings;
     
     this->loadXmlSettings();
     this->selectResolution();
@@ -262,7 +262,7 @@ void ofApp::draw(){
         ImGui::SetNextWindowSize(ofVec2f(800,500));
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::Begin(this->currentStrings["sundial"].c_str());
-        ImGui::Text(this->currentStrings["sundial"].c_str());
+        //ImGui::Text(this->currentStrings["sundial"].c_str());
         if(ImGui::Button(this->changeLocaleLabel.c_str())){
             this->changeLocale();
         }
@@ -559,5 +559,11 @@ void ofApp::loadXmlSettings(){
         this->configurationPanelShow = settings.getValue<bool>("//SHOW_CONFIGURATION_PANEL");
     } else {
         this->configurationPanelShow = true;
+    }
+}
+//----------------------------------------------------------------------------------------------------------------------------
+void ofApp::mouseReleased(ofMouseEventArgs&){
+    if (this->configurationPanelShow == false) {
+        this->showConfigurationPanel();
     }
 }

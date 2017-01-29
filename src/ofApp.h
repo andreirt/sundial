@@ -77,4 +77,6 @@ public:
     void loadXmlSettings();
     void setFullscreen();
     void selectResolution();
+    
+    void mouseReleased(ofMouseEventArgs&);
 };
