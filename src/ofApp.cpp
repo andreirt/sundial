@@ -1,6 +1,12 @@
 #include "ofApp.h"
-#include <sys/time.h>
 #include <math.h>
+
+#ifdef WIN32
+#include "gettimeofday.h"
+#elif
+#include <sys/time.h>
+#endif
+
 
 const string ofApp::ENGLISH_LABEL = "English";
 const string ofApp::PORTUGUESE_LABEL = "Português";
@@ -21,7 +27,7 @@ bool ofApp::configurationPanelShow = true;
 
 //----------------------------------------------------------------------------------------------------------------------------
 void ofApp::setup(){
-    gui = new ofxImGui;
+    gui = new ofxImGui::Gui();
     gui->setup();
     imageButtonID = gui->loadImage("funarte.png");
     this->lastTimeImageWasSaved = 0;
@@ -219,7 +225,7 @@ void ofApp::getSunTime() {
 float ofApp::getShadowWidth() {
     float aux;
     
-    if (currentTime <= sunrise or currentTime >= sunset)
+    if (currentTime <= sunrise || currentTime >= sunset)
         return 0;
     else {
         aux = ofMap(currentTime, sunrise, sunset, 0, this->cameraWidth-1);
@@ -259,8 +265,8 @@ void ofApp::draw(){
     //Interface
     if(configurationPanelShow == true){
         gui->begin();
-        ImGui::SetNextWindowSize(ofVec2f(800,500));
-        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(ofVec2f(800,500), ImGuiSetCond_FirstUseEver);
+        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiSetCond_FirstUseEver);
         ImGui::Begin(this->currentStrings["sundial"].c_str());
         //ImGui::Text(this->currentStrings["sundial"].c_str());
         if(ImGui::Button(this->changeLocaleLabel.c_str())){
